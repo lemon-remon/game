@@ -40,19 +40,19 @@ function de (){
 
 
 let playerRight = new Image();
-playerRight.src = "/malio.right.gif";
+playerRight.src = "malio.right.gif";
 
 let playerLeft = new Image();
-playerLeft.src = "/malio.left.gif";
+playerLeft.src = "malio.left.gif";
 
 let block = new Image();
-block.src = "/z.jpg"
+block.src = "z.jpg"
 
 let renga = new Image();
-renga.src = "/block.gif"
+renga.src = "block.gif"
 
 let question = new Image();
-question.src = "/_block.gif"
+question.src = "_block.gif"
 
 
 
