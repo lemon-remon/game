@@ -57,7 +57,7 @@ question.src = "_block.gif"
 
 
 
-img.onload = function(){setInterval(draw,16)}
+window.onload = function(){setInterval(draw,16)}
 
 
 
