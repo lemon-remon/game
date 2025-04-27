@@ -14,6 +14,10 @@ let isjump = false;
 let blocksize = 40;
 let fall = false;
 
+//item
+let lookMush1 = false;
+
+
 function init (){
     scrollx = 450;
     y = 380;
@@ -41,23 +45,38 @@ function de (){
 
 let playerRight = new Image();
 playerRight.src = "/malio.right.gif";
+playerRight.onload = checkAllImagesLoaded;
 
 let playerLeft = new Image();
 playerLeft.src = "/malio.left.gif";
+playerLeft.onload = checkAllImagesLoaded;
 
 let block = new Image();
-block.src = "/z.jpg"
+block.src = "/z.jpg";
+block.onload = checkAllImagesLoaded;
 
 let renga = new Image();
-renga.src = "/block.gif"
+renga.src = "/block.gif";
+renga.onload = checkAllImagesLoaded;
 
 let question = new Image();
-question.src = "/_block.gif"
+question.src = "/_block.gif";
+question.onload = checkAllImagesLoaded;
+
+let mush = new Image();
+mush.src = "/mush.gif";
+mush.onload = checkAllImagesLoaded;
 
 
 
+let imagesLoaded = 0;
 
-window.onload = function(){setInterval(draw,16)}
+function checkAllImagesLoaded() {
+    imagesLoaded++;
+    if (imagesLoaded === 6) { // 5枚全部ロードできたら
+        window.setInterval(draw, 16);
+    }
+}
 
 
 
@@ -87,6 +106,7 @@ if (y <= 220 && y >= 210) {
     if(scrollx <= -35 && scrollx >= -105 && y >= 300 &&y <= 310 && dy <= 0 ){
         y = 300
         dy = 0
+        lookMush1 = true
     }
     //left
     if(scrollx <= -30 && scrollx >= -68 && y >= 220 && y <= 285 ){
@@ -102,7 +122,7 @@ if (y <= 220 && y >= 210) {
     //三連続ブロック
 
         //up
-if (y <= 220 && y >= 210) {
+if (y <= 220 && y >= 207) {
     if (scrollx <= -912 && scrollx >= -1068 && dy >= 0) {
         y = 217;
         dy = 0;
@@ -129,7 +149,7 @@ if (y <= 220 && y >= 210) {
   
     //上の一個
      //up
-if (y <= 60 && y >= 50) {
+if (y <= 60 && y >= 43) {
     if (scrollx <= -952 && scrollx >= -1028 && dy >= 0) {
         y = 60;
         dy = 0;
@@ -151,7 +171,87 @@ if (y <= 60 && y >= 50) {
     if(scrollx <= -990 && scrollx >= -1030 && y >= 65 && y <= 135 ){
         scrollx = -1030
     }
+
+
+
+    //２個めの三連
+            //up
+if (y <= 220 && y >= 207) {
+    if (scrollx <= -2150 && scrollx >= -2310 && dy >= 0) {
+        y = 217;
+        dy = 0;
+        isjump = false;
+    }
+}
+
+
+    //under
+    if(scrollx <= -2148 && scrollx >= -2312 && y >= 300 &&y <= 310 && dy <= 0 ){
+        y = 300
+        dy = 0
+    }
+    //left
+    if(scrollx <= -2148 && scrollx >= -2198 && y >= 225 && y <= 285 ){
+        scrollx = -2148
+    }
+    //right
+    if(scrollx <= -2262 && scrollx >= -2312 && y >= 225 && y <= 285 ){
+        scrollx = -2312
+    }
     
+//上の長いやつ
+         //up
+if (y <= 60 && y >= 43) {
+    if (scrollx <= -2268 && scrollx >= -2594 && dy >= 0) {
+        y = 60;
+        dy = 0;
+        isjump = false;
+    }
+}
+
+
+    //under
+    if(scrollx <= -2268 && scrollx >= -2594 && y >= 140 &&y <= 150 && dy <= 0 ){
+        y = 140
+        dy = 0
+        //action
+    }
+    //left
+    if(scrollx <= -2268 && scrollx >= -2318 && y >= 65 && y <= 135 ){
+        scrollx = -2268
+    }
+    //right
+    if(scrollx <= -2544 && scrollx >= -2594 && y >= 65 && y <= 135 ){
+        scrollx = -2594
+    }
+
+    // 4こ
+             //up
+if (y <= 60 && y >= 43) {
+    if (scrollx <= -2666 && scrollx >= -2868 && dy >= 0) {
+        y = 60;
+        dy = 0;
+        isjump = false;
+    }
+}
+
+
+    //under
+    if(scrollx <= -2666 && scrollx >= -2868 && y >= 140 &&y <= 150 && dy <= 0 ){
+        y = 140
+        dy = 0
+        //action
+    }
+    //left
+    if(scrollx <= -2666 && scrollx >= -2716 && y >= 65 && y <= 135 ){
+        scrollx = -2666
+    }
+    //right
+    if(scrollx <= -2818 && scrollx >= -2868 && y >= 65 && y <= 135 ){
+        scrollx = -2868
+    }
+
+
 
 }
 //落下判定
@@ -161,9 +261,25 @@ function Tofall(){
         fall = true
     }
 
+    if(scrollx <= -1748 && scrollx >= -1868 && y >= 360){
+        fall = true
+    }
+
+    if(scrollx <= -2952 && scrollx >= -3068 && y >= 360){
+        fall = true
+    }
+
+
+
+
+
+
+
+
     if (y >=550){
         init();
     }
+
 }
 
 
@@ -178,6 +294,11 @@ function draw (){
     ctx.clearRect(0,0,canvas.width,canvas.height)
     stage();
     checkHit();
+
+    //アイテム描画
+    if (lookMush1 === true) {
+        ctx.drawImage(mush,520 + scrollx,220,40,40)
+    }
     
 
 
@@ -217,7 +338,7 @@ document.addEventListener("keydown",function(e){
         case "ArrowRight":
         if(isjump === false){
         dir = "right"
-        dx = -6
+        dx = -12
         }else{
             dx = -4
         }
@@ -226,7 +347,7 @@ document.addEventListener("keydown",function(e){
         case "ArrowLeft":
         if(isjump === false){
         dir = "left"
-        dx = 6
+        dx = 12
         }else 
             dx = 4
         break;
@@ -295,5 +416,3 @@ function stage(){
         }
     }
 }
-
-
